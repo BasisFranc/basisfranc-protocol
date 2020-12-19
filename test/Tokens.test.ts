@@ -21,12 +21,12 @@ describe("Tokens", () => {
     });
 
     let Bond: ContractFactory;
-    let Dollar: ContractFactory;
+    let Franc: ContractFactory;
     let Share: ContractFactory;
 
     before("fetch contract factories", async () => {
         Bond = await ethers.getContractFactory("Bond");
-        Dollar = await ethers.getContractFactory("Dollar");
+        Franc = await ethers.getContractFactory("Franc");
         Share = await ethers.getContractFactory("Share");
     });
 
@@ -57,11 +57,11 @@ describe("Tokens", () => {
         });
     });
 
-    describe("Dollar", () => {
+    describe("Franc", () => {
         let token: Contract;
 
         before("deploy token", async () => {
-            token = await Dollar.connect(operator).deploy();
+            token = await Franc.connect(operator).deploy();
         });
 
         it("mint", async () => {

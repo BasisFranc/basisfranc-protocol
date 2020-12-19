@@ -29,7 +29,7 @@ describe("ContractGuard", () => {
     });
 
     // core
-    let Dollar: ContractFactory;
+    let Franc: ContractFactory;
     let Bond: ContractFactory;
     let Share: ContractFactory;
     let Treasury: ContractFactory;
@@ -39,7 +39,7 @@ describe("ContractGuard", () => {
     let Tester: ContractFactory;
 
     before("fetch contract factories", async () => {
-        Dollar = await ethers.getContractFactory("Dollar");
+        Franc = await ethers.getContractFactory("Franc");
         Bond = await ethers.getContractFactory("Bond");
         Share = await ethers.getContractFactory("Share");
         Treasury = await ethers.getContractFactory("Treasury");
@@ -49,7 +49,7 @@ describe("ContractGuard", () => {
     });
 
     let bond: Contract;
-    let dollar: Contract;
+    let franc: Contract;
     let share: Contract;
     let oracle: Contract;
     let treasury: Contract;
@@ -57,14 +57,14 @@ describe("ContractGuard", () => {
     let tester: Contract;
 
     beforeEach("deploy contracts", async () => {
-        dollar = await Dollar.connect(operator).deploy();
+        franc = await Franc.connect(operator).deploy();
         bond = await Bond.connect(operator).deploy();
         share = await Share.connect(operator).deploy();
 
         oracle = await MockOracle.connect(operator).deploy();
-        boardroom = await Boardroom.connect(operator).deploy(dollar.address, share.address);
+        boardroom = await Boardroom.connect(operator).deploy(franc.address, share.address);
         treasury = await Treasury.connect(operator).deploy(
-            dollar.address,
+            franc.address,
             bond.address,
             share.address,
             oracle.address,
@@ -77,10 +77,10 @@ describe("ContractGuard", () => {
     });
 
     it("#actionTreasury", async () => {
-        const dollarPrice = ETH.mul(106).div(100);
-        await oracle.setPrice(dollarPrice);
+        const francPrice = ETH.mul(106).div(100);
+        await oracle.setPrice(francPrice);
 
-        for await (const token of [dollar, bond, share]) {
+        for await (const token of [franc, bond, share]) {
             await token.connect(operator).transferOperator(treasury.address);
         }
         await expect(tester.connect(fraud).actionTreasury()).to.revertedWith("ContractGuard: one block, one function");

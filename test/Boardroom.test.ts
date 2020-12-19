@@ -24,24 +24,24 @@ describe("Boardroom", () => {
         [operator, whale, abuser, rewardPool] = await ethers.getSigners();
     });
 
-    let Dollar: ContractFactory;
+    let Franc: ContractFactory;
     let Share: ContractFactory;
     let Boardroom: ContractFactory;
 
     before("fetch contract factories", async () => {
-        Dollar = await ethers.getContractFactory("Dollar");
+        Franc = await ethers.getContractFactory("Franc");
         Share = await ethers.getContractFactory("Share");
         Boardroom = await ethers.getContractFactory("Boardroom");
     });
 
-    let dollar: Contract;
+    let franc: Contract;
     let share: Contract;
     let boardroom: Contract;
 
     beforeEach("deploy contracts", async () => {
-        dollar = await Dollar.connect(operator).deploy();
+        franc = await Franc.connect(operator).deploy();
         share = await Share.connect(operator).deploy();
-        boardroom = await Boardroom.connect(operator).deploy(dollar.address, share.address);
+        boardroom = await Boardroom.connect(operator).deploy(franc.address, share.address);
     });
 
     describe("#stake", () => {
@@ -125,8 +125,8 @@ describe("Boardroom", () => {
         });
 
         it("should allocate seigniorage to stakers", async () => {
-            await dollar.connect(operator).mint(operator.address, SEIGNIORAGE_AMOUNT);
-            await dollar.connect(operator).approve(boardroom.address, SEIGNIORAGE_AMOUNT);
+            await franc.connect(operator).mint(operator.address, SEIGNIORAGE_AMOUNT);
+            await franc.connect(operator).approve(boardroom.address, SEIGNIORAGE_AMOUNT);
 
             await expect(boardroom.connect(operator).allocateSeigniorage(SEIGNIORAGE_AMOUNT))
                 .to.emit(boardroom, "RewardAdded")
@@ -158,8 +158,8 @@ describe("Boardroom", () => {
         });
 
         it("should claim devidends", async () => {
-            await dollar.connect(operator).mint(operator.address, SEIGNIORAGE_AMOUNT);
-            await dollar.connect(operator).approve(boardroom.address, SEIGNIORAGE_AMOUNT);
+            await franc.connect(operator).mint(operator.address, SEIGNIORAGE_AMOUNT);
+            await franc.connect(operator).approve(boardroom.address, SEIGNIORAGE_AMOUNT);
             await boardroom.connect(operator).allocateSeigniorage(SEIGNIORAGE_AMOUNT);
 
             await expect(boardroom.connect(whale).claimReward()).to.emit(boardroom, "RewardPaid").withArgs(whale.address, SEIGNIORAGE_AMOUNT);
@@ -167,8 +167,8 @@ describe("Boardroom", () => {
         });
 
         it("should claim devidends correctly even after other person stakes after snapshot", async () => {
-            await dollar.connect(operator).mint(operator.address, SEIGNIORAGE_AMOUNT);
-            await dollar.connect(operator).approve(boardroom.address, SEIGNIORAGE_AMOUNT);
+            await franc.connect(operator).mint(operator.address, SEIGNIORAGE_AMOUNT);
+            await franc.connect(operator).approve(boardroom.address, SEIGNIORAGE_AMOUNT);
             await boardroom.connect(operator).allocateSeigniorage(SEIGNIORAGE_AMOUNT);
 
             await boardroom.connect(abuser).stake(STAKE_AMOUNT);

@@ -1,35 +1,35 @@
-const {bacPools, INITIAL_BSD_FOR_POOLS} = require('./pools');
+const {bacPools, INITIAL_XHF_FOR_POOLS} = require('./pools');
 
 // Pools
 // deployed first
-const Dollar = artifacts.require('Dollar');
-const InitialDollarDistributor = artifacts.require('InitialDollarDistributor');
+const Franc = artifacts.require('Franc');
+const InitialFrancDistributor = artifacts.require('InitialFrancDistributor');
 
 // ============ Main Migration ============
 
 module.exports = async (deployer, network, accounts) => {
     const unit = web3.utils.toBN(10 ** 18);
-    const initialDollarAmount = unit.muln(INITIAL_BSD_FOR_POOLS).toString();
+    const initialFrancAmount = unit.muln(INITIAL_XHF_FOR_POOLS).toString();
 
-    const dollar = await Dollar.deployed();
+    const franc = await Franc.deployed();
     const pools = bacPools.map(({contractName}) => artifacts.require(contractName));
 
     await deployer.deploy(
-        InitialDollarDistributor,
-        dollar.address,
+        InitialFrancDistributor,
+        franc.address,
         pools.map((p) => p.address),
-        initialDollarAmount
+        initialFrancAmount
     );
-    const distributor = await InitialDollarDistributor.deployed();
+    const distributor = await InitialFrancDistributor.deployed();
 
-    console.log(`Setting distributor to InitialDollarDistributor (${distributor.address})`);
+    console.log(`Setting distributor to InitialFrancDistributor (${distributor.address})`);
     for await (const poolInfo of pools) {
         const pool = await poolInfo.deployed();
         await pool.setRewardDistribution(distributor.address);
     }
 
-    await dollar.mint(distributor.address, initialDollarAmount);
-    console.log(`Deposited ${INITIAL_BSD_FOR_POOLS} BSD to InitialDollarDistributor.`);
+    await franc.mint(distributor.address, initialFrancAmount);
+    console.log(`Deposited ${INITIAL_XHF_FOR_POOLS} XHF to InitialFrancDistributor.`);
 
     await distributor.distribute();
 };

@@ -3,7 +3,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_bsd",
+        "name": "_xhf",
         "type": "address"
       },
       {
@@ -142,7 +142,7 @@
   },
   {
     "inputs": [],
-    "name": "bsd",
+    "name": "xhf",
     "outputs": [
       {
         "internalType": "contract IERC20",
@@ -155,7 +155,7 @@
   },
   {
     "inputs": [],
-    "name": "bsdPerBlock",
+    "name": "xhfPerBlock",
     "outputs": [
       {
         "internalType": "uint256",
@@ -259,7 +259,7 @@
         "type": "address"
       }
     ],
-    "name": "pendingBasisDollar",
+    "name": "pendingBasisFranc",
     "outputs": [
       {
         "internalType": "uint256",
@@ -292,7 +292,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "accBsdPerShare",
+        "name": "accXhfPerShare",
         "type": "uint256"
       }
     ],

@@ -44,7 +44,7 @@ describe('Oracle', () => {
         [operator, whale] = await ethers.getSigners();
     });
 
-    let Dollar: ContractFactory;
+    let Franc: ContractFactory;
     let Share: ContractFactory;
     let Oracle: ContractFactory;
     let MockERC20: ContractFactory;
@@ -54,7 +54,7 @@ describe('Oracle', () => {
     let Router = new ContractFactory(UniswapV2Router.abi, UniswapV2Router.bytecode);
 
     before('fetch contract factories', async () => {
-        Dollar = await ethers.getContractFactory('Dollar');
+        Franc = await ethers.getContractFactory('Franc');
         Share = await ethers.getContractFactory('Share');
         Oracle = await ethers.getContractFactory('Oracle');
         MockERC20 = await ethers.getContractFactory('MockERC20');
@@ -68,26 +68,26 @@ describe('Oracle', () => {
         router = await Router.connect(operator).deploy(factory.address, operator.address);
     });
 
-    let dai: Contract;
-    let dollar: Contract;
+    let xchf: Contract;
+    let franc: Contract;
     let share: Contract;
     let oracle: Contract;
     let oracleStartTime: BigNumber;
 
     beforeEach('deploy contracts', async () => {
-        dai = await MockERC20.connect(operator).deploy('Dai Stablecoin', 'DAI', 18);
-        dollar = await Dollar.connect(operator).deploy();
+        xchf = await MockERC20.connect(operator).deploy('CryptoFranc', 'XCHF', 18);
+        franc = await Franc.connect(operator).deploy();
         share = await Share.connect(operator).deploy();
 
-        await dai.connect(operator).mint(operator.address, ETH.mul(2));
-        await dai.connect(operator).approve(router.address, ETH.mul(2));
-        await dollar.connect(operator).mint(operator.address, ETH);
-        await dollar.connect(operator).approve(router.address, ETH);
+        await xchf.connect(operator).mint(operator.address, ETH.mul(2));
+        await xchf.connect(operator).approve(router.address, ETH.mul(2));
+        await franc.connect(operator).mint(operator.address, ETH);
+        await franc.connect(operator).approve(router.address, ETH);
 
-        await addLiquidity(provider, operator, router, dollar, dai, ETH);
+        await addLiquidity(provider, operator, router, franc, xchf, ETH);
 
         oracleStartTime = BigNumber.from(await latestBlocktime(provider)).add(DAY);
-        oracle = await Oracle.connect(operator).deploy(factory.address, dollar.address, dai.address, oracleStartTime);
+        oracle = await Oracle.connect(operator).deploy(factory.address, franc.address, xchf.address, oracleStartTime);
     });
 
     describe('#update', async () => {

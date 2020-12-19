@@ -11,19 +11,19 @@ contract MockBoardroom is IBoardroom, Operator {
 
     /* ========== STATE VARIABLES ========== */
 
-    IERC20 public dollar;
+    IERC20 public franc;
 
     /* ========== CONSTRUCTOR ========== */
 
-    constructor(address _dollar) public {
-        dollar = IERC20(_dollar);
+    constructor(address _franc) public {
+        franc = IERC20(_franc);
     }
 
     /* ========== MUTATIVE FUNCTIONS ========== */
 
     function allocateSeigniorage(uint256 amount) external override onlyOperator {
         require(amount > 0, "Boardroom: Cannot allocate 0");
-        dollar.safeTransferFrom(msg.sender, address(this), amount);
+        franc.safeTransferFrom(msg.sender, address(this), amount);
         emit RewardAdded(msg.sender, amount);
     }
 

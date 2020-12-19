@@ -3,7 +3,7 @@ const {bacPools, POOL_START_DATE} = require('./pools');
 
 // Tokens
 // deployed first
-const Dollar = artifacts.require('Dollar');
+const Franc = artifacts.require('Franc');
 const MockDai = artifacts.require('MockDai');
 
 // ============ Main Migration ============
@@ -16,6 +16,6 @@ module.exports = async (deployer, network, accounts) => {
         }
 
         const contract = artifacts.require(contractName);
-        await deployer.deploy(contract, Dollar.address, tokenAddress, POOL_START_DATE);
+        await deployer.deploy(contract, Franc.address, tokenAddress, POOL_START_DATE);
     }
 };

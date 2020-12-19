@@ -12,8 +12,8 @@ function distributionPoolContracts() {
 }
 
 // Deployment and ABI will be generated for contracts listed on here.
-// The deployment thus can be used on basisdollar-frontend.
-const exportedContracts = ['Dollar', 'Bond', 'Share', 'Boardroom', 'Treasury', ...distributionPoolContracts()];
+// The deployment thus can be used on basisfranc-frontend.
+const exportedContracts = ['Franc', 'Bond', 'Share', 'Boardroom', 'Treasury', ...distributionPoolContracts()];
 
 module.exports = async (deployer, network, accounts) => {
     const deployments = {};

@@ -1,6 +1,6 @@
 const Boardroom = artifacts.require('Boardroom');
 const Treasury = artifacts.require('Treasury');
-const Dollar = artifacts.require('Dollar');
+const Franc = artifacts.require('Franc');
 const Bond = artifacts.require('Bond');
 const Share = artifacts.require('Share');
 const Timelock = artifacts.require('Timelock');
@@ -8,14 +8,14 @@ const Timelock = artifacts.require('Timelock');
 const DAY = 86400;
 
 module.exports = async (deployer, network, accounts) => {
-    const dollar = await Dollar.deployed();
+    const franc = await Franc.deployed();
     const share = await Share.deployed();
     const bond = await Bond.deployed();
     const treasury = await Treasury.deployed();
     const boardroom = await Boardroom.deployed();
     const timelock = await deployer.deploy(Timelock, accounts[0], 2 * DAY);
 
-    for await (const contract of [dollar, share, bond]) {
+    for await (const contract of [franc, share, bond]) {
         await contract.transferOperator(treasury.address);
         await contract.transferOwnership(treasury.address);
     }
