@@ -38,7 +38,7 @@ Basis was shut down in 2018, due to regulatory concerns its Bond and Share token
 Basis Franc differs from the original Basis Project in several meaningful ways:
 
 1. **Rationally simplified** - several core mechanisms of the Basis protocol has been simplified, especially around bond issuance and seigniorage distribution. We've thought deeply about the tradeoffs for these changes, and believe they allow significant gains in UX and contract simplicity, while preserving the intended behavior of the original monetary policy design.
-2. **Censorship resistant** - we launch this project anonymously, protected by the guise of characters from the popular SciFi series Rick and Morty. We believe this will allow the project to avoid the censorship of regulators that scuttled the original Basis Protocol, but will also allow Basis Franc to avoid founder glorification & single points of failure that have plagued so many other projects.
+2. **Censorship resistant** -.
 3. **Fairly distributed** - both Basis Franc Shares and Basis Franc has no premine and no VC - community members can earn the initial supply of both assets by helping to contribute to bootstrap liquidity & adoption of Basis Franc.
 
 ### A Three-token System
